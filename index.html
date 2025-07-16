@@ -3,39 +3,94 @@
 <head>
   <meta charset="UTF-8">
   <title>Work Duration Calculator</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap" rel="stylesheet">
   <style>
-    body {
-      font-family: Arial, sans-serif;
-      padding: 2em;
-      max-width: 500px;
-      margin: auto;
-    }
-    label {
-      display: block;
-      margin-top: 1em;
-    }
-    input {
-      padding: 0.5em;
-      width: 100%;
+    * {
       box-sizing: border-box;
     }
+
+    body {
+      font-family: 'Inter', sans-serif;
+      background: #f0f4f8;
+      margin: 0;
+      padding: 2rem;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+    }
+
+    .card {
+      background: white;
+      border-radius: 16px;
+      box-shadow: 0 10px 25px rgba(0, 0, 0, 0.07);
+      padding: 2rem;
+      width: 100%;
+      max-width: 400px;
+    }
+
+    h2 {
+      margin-top: 0;
+      margin-bottom: 1rem;
+      font-weight: 600;
+      font-size: 1.5rem;
+      color: #1a202c;
+    }
+
+    label {
+      display: block;
+      margin-bottom: 0.5rem;
+      font-weight: 500;
+      color: #4a5568;
+    }
+
+    input[type="time"] {
+      width: 100%;
+      padding: 0.6rem;
+      border-radius: 8px;
+      border: 1px solid #cbd5e0;
+      font-size: 1rem;
+      margin-bottom: 1.5rem;
+    }
+
+    .info {
+      font-size: 0.95rem;
+      color: #718096;
+      margin-bottom: 1rem;
+    }
+
     .result {
-      margin-top: 1.5em;
-      font-weight: bold;
-      font-size: 1.2em;
+      background: #ebf8ff;
+      color: #2b6cb0;
+      padding: 1rem;
+      border-radius: 8px;
+      font-size: 1.2rem;
+      font-weight: 600;
+      text-align: center;
+    }
+
+    @media (max-width: 480px) {
+      .card {
+        padding: 1.5rem;
+      }
     }
   </style>
 </head>
 <body>
 
-  <h2>Work Duration Calculator</h2>
+  <div class="card">
+    <h2>Work Duration Calculator</h2>
 
-  <label for="start">Start Time:</label>
-  <input type="time" id="start" value="08:30">
+    <label for="start">Start Time</label>
+    <input type="time" id="start" value="08:30">
 
-  <p>End Time: <strong>Now</strong> (auto-updating)</p>
+    <div class="info">
+      End Time: <strong>Now</strong> (auto-updating every second)<br>
+      Lunch break: <strong>30 minutes</strong> deducted
+    </div>
 
-  <div class="result" id="result">Loading...</div>
+    <div class="result" id="result">Loading...</div>
+  </div>
 
   <script>
     const startInput = document.getElementById("start");
@@ -63,10 +118,10 @@
       const hours = Math.floor(diffMs / (1000 * 60 * 60));
       const minutes = Math.floor((diffMs % (1000 * 60 * 60)) / (1000 * 60));
 
-      result.textContent = `Worked: ${hours} hour(s) and ${minutes} minute(s) (30 min lunch deducted)`;
+      result.textContent = `Worked: ${hours} hour(s) and ${minutes} minute(s)`;
     }
 
-    // Update every second
+    // Auto-update every second
     setInterval(updateDuration, 1000);
     startInput.addEventListener("input", updateDuration);
     window.addEventListener("load", updateDuration);
