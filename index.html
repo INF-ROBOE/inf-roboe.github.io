@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Work Duration Calculator</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      padding: 2em;
+      max-width: 500px;
+      margin: auto;
+    }
+    label {
+      display: block;
+      margin-top: 1em;
+    }
+    input {
+      padding: 0.5em;
+      width: 100%;
+      box-sizing: border-box;
+    }
+    .result {
+      margin-top: 1.5em;
+      font-weight: bold;
+      font-size: 1.2em;
+    }
+  </style>
+</head>
+<body>
+
+  <h2>Work Duration Calculator</h2>
+
+  <label for="start">Start Time:</label>
+  <input type="time" id="start" value="08:30">
+
+  <p>End Time: <strong>Now</strong> (auto-updating)</p>
+
+  <div class="result" id="result">Loading...</div>
+
+  <script>
+    const startInput = document.getElementById("start");
+    const result = document.getElementById("result");
+
+    function updateDuration() {
+      const startValue = startInput.value;
+      if (!startValue) {
+        result.textContent = "Please enter a valid start time.";
+        return;
+      }
+
+      const [startHours, startMinutes] = startValue.split(":").map(Number);
+      const now = new Date();
+      const startTime = new Date();
+      startTime.setHours(startHours, startMinutes, 0, 0);
+
+      let diffMs = now - startTime - (30 * 60 * 1000); // subtract 30 min lunch
+
+      if (diffMs < 0) {
+        result.textContent = "Start time is in the future. Please check.";
+        return;
+      }
+
+      const hours = Math.floor(diffMs / (1000 * 60 * 60));
+      const minutes = Math.floor((diffMs % (1000 * 60 * 60)) / (1000 * 60));
+
+      result.textContent = `Worked: ${hours} hour(s) and ${minutes} minute(s) (30 min lunch deducted)`;
+    }
+
+    // Update every second
+    setInterval(updateDuration, 1000);
+    startInput.addEventListener("input", updateDuration);
+    window.addEventListener("load", updateDuration);
+  </script>
+
+</body>
+</html>
