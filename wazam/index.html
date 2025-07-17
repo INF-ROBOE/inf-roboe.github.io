@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Fake Shazam App</title>
+  <style>
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      padding: 0;
+      height: 100vh;
+      background: linear-gradient(to bottom, #1f1c2c, #928dab);
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-direction: column;
+      color: white;
+      text-align: center;
+    }
+
+    h1 {
+      font-weight: 400;
+      font-size: 32px;
+      margin-bottom: 30px;
+      letter-spacing: 1px;
+    }
+
+    .mic-button {
+      width: 140px;
+      height: 140px;
+      background: radial-gradient(circle at 30% 30%, #42a5f5, #1e88e5);
+      border: none;
+      border-radius: 50%;
+      box-shadow: 0 0 25px rgba(66, 165, 245, 0.6);
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: transform 0.3s ease;
+    }
+
+    .mic-button i {
+      font-size: 60px;
+      color: white;
+    }
+
+    .spinning-pulsing {
+      animation: spin 5s linear infinite, pulse 1s ease-in-out infinite;
+    }
+
+    @keyframes spin {
+      from { transform: rotate(0deg); }
+      to { transform: rotate(360deg); }
+    }
+
+    @keyframes pulse {
+      0%, 100% { transform: scale(1); }
+      50% { transform: scale(1.2); }
+    }
+
+    #status {
+      margin-top: 20px;
+      font-size: 16px;
+      color: #e0e0e0;
+      min-height: 24px;
+    }
+
+    #message {
+      margin-top: 30px;
+      font-size: 18px;
+      color: #ff6f61;
+      opacity: 0;
+      transition: opacity 0.5s ease;
+      max-width: 300px;
+    }
+
+    #message.show {
+      opacity: 1;
+    }
+  </style>
+</head>
+<body>
+
+  <h1>Tap to Shazam</h1>
+
+  <button class="mic-button" onclick="startFakeSearch()" id="micBtn">
+    <i>🎤</i>
+  </button>
+
+  <div id="status">Listening for music...</div>
+  <div id="message"></div>
+
+  <script>
+    function startFakeSearch() {
+      const btn = document.getElementById('micBtn');
+      const message = document.getElementById('message');
+      const status = document.getElementById('status');
+
+      // Reset previous state
+      message.classList.remove('show');
+      message.textContent = '';
+      status.textContent = "Listening for music...";
+
+      // Add spinning and pulsing animation
+      btn.classList.add('spinning-pulsing');
+
+      // After 5 seconds, stop animation and show message
+      setTimeout(() => {
+        btn.classList.remove('spinning-pulsing');
+        message.textContent = "You can't sing. Please stop — it hurts my app's feelings.";
+        message.classList.add('show');
+        status.textContent = "";
+      }, 5000);
+    }
+  </script>
+
+</body>
+</html>
